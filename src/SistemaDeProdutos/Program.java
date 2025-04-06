@@ -15,7 +15,7 @@ public class Program {
         aux += "\n2- Buscar informações do Produto";
         aux += "\n3- Atualizar quantidade em Estoque";
         aux += "\n4- Exbiir Produtos com Estoque baixo";
-        aux += "\n5- Exibir relatório";
+        aux += "\n5- Exibir todos os Produtos da Lista";
         aux += "\n6- Encerrar programa";
 
 
@@ -28,34 +28,49 @@ public class Program {
                 resposta = showConfirmDialog(null, "Você tem certeza que deseja encerrar o Programa?");
                 if (resposta == YES_OPTION)
                     break;
-                else if (opcao > 5 || opcao < 0)
-                    showMessageDialog(null, "A opção deve estar entre 1 e 5");
-                else {
-                    switch (opcao) {
-                        case 1:
-                            cadastrarProduto();
-                            break;
-                        case 2:
-                            buscarProduto();
-                            break;
-                    }
+            } else if (opcao > 5 || opcao < 0)
+                showMessageDialog(null, "A opção deve estar entre 1 e 5");
+            else {
+                switch (opcao) {
+                    case 1:
+                        cadastrarProduto();
+                        break;
+                    case 2:
+                        buscarProduto();
+                        break;
+                    case 3:
+                        atualizarQuantidadeEstoque();
+                        break;
+                    case 4:
+
+                    case 5:
+                        exibirProdutos();
+                        break;
                 }
             }
         }
     }
 
     //Método que pesquisa o nome do produto
-    public Produto pesquisarProduto(String nomeProduto) {
-        while (indexProduto < produtos.length) {
-            if (produtos[indexProduto].getNome().equalsIgnoreCase(nomeProduto)) {
-                return produtos[indexProduto];
+    private Produto pesquisarProduto() {
+        String nomeProduto = showInputDialog("Digite o nome do produto");
+
+//        for (int i = 0; i < produtos.length; i++) {
+//            if (produtos[i].getNome().equals(nomeProduto)) {
+//                return produtos[i];
+//            }
+//        }
+//        return null;
+        for (int i = 0; i < indexProduto; i++) {
+            if (produtos[i].getNome().equalsIgnoreCase(nomeProduto)) {
+                return produtos[i];
             }
         }
         return null;
     }
 
     //Método reponsável por cadastrar o produto no array
-    public void cadastrarProduto() {
+    private void cadastrarProduto() {
 
         int codigo = parseInt((showInputDialog("Digite o codigo do produto")));
         String nome = showInputDialog("Digite o nome do produto");
@@ -67,15 +82,30 @@ public class Program {
     }
 
     //Método responsável por buscar o produto no array para exibir o nome a quantidade de estoque e o preco
-    public void buscarProduto() {
+    private void buscarProduto() {
         Produto p;
-        String nomeProduto = showInputDialog("Digite o nome do produto");
-        p = pesquisarProduto(nomeProduto);
+        p = pesquisarProduto();
         if (p != null)
             showMessageDialog(null, p.getDados());
         else
             showMessageDialog(null, "Produto não encontrado!");
-
-
     }
+
+    //Método para atualizar a quantidade de estoque do produto
+    private void atualizarQuantidadeEstoque() {
+        Produto p = pesquisarProduto();
+        int qtd = 0;
+        if(p == null)
+            showMessageDialog(null, "Produto não encontrado!");
+        else
+            qtd = parseInt(showInputDialog("Digite a quantidade de Estoque que você deseja atualizar"));
+            p.setQuantidadeEstoque(qtd);
+    }
+
+    private void exibirProdutos() {
+        for (int i = 0; i < indexProduto; i++) {
+            showMessageDialog(null, produtos[i].getDados());
+        }
+    }
+
 }

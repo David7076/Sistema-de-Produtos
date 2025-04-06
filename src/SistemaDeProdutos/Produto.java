@@ -23,7 +23,7 @@ public class Produto {
     }
 
     public String getDados() {
-        return nome + " " + quantidadeEstoque + " " + preco;
+        return "Produto: "+ nome + "\n" +  "Quantidade de Estoque: " + quantidadeEstoque + "\n" + "Preço: "+ preco;
     }
 
     public int getCodigo() {
